@@ -1,0 +1,126 @@
+openapi: 3.0.0
+info:
+  title: Farm Collector API
+  description: API for collecting and reporting farm data, including planted and harvested data.
+  version: 1.0.0
+paths:
+  /FarmCollection/planted:
+    post:
+      summary: Record Planted Data
+      description: This endpoint records the planted data for the farm.
+      operationId: recordPlantedData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cropType:
+                  type: string
+                  description: Type of the crop being planted.
+                area:
+                  type: number
+                  format: float
+                  description: Area of the land in hectares.
+                plantingDate:
+                  type: string
+                  format: date
+                  description: The date the crop was planted.
+                quantity:
+                  type: number
+                  format: float
+                  description: Quantity of the crop to be planted.
+      responses:
+        200:
+          description: Planted data recorded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Planted data recorded successfully"
+  /FarmCollection/harvested:
+    post:
+      summary: Record Harvested Data
+      description: This endpoint records the harvested data for the farm.
+      operationId: recordHarvestedData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cropType:
+                  type: string
+                  description: Type of the crop being harvested.
+                area:
+                  type: number
+                  format: float
+                  description: Area of the land in hectares.
+                harvestDate:
+                  type: string
+                  format: date
+                  description: The date the crop was harvested.
+                quantity:
+                  type: number
+                  format: float
+                  description: Quantity of the crop harvested.
+      responses:
+        200:
+          description: Harvested data recorded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Harvested data recorded successfully"
+  /FarmCollection/reports:
+    get:
+      summary: Generate Reports for a Season
+      description: This endpoint generates reports for a specific season based on the provided season parameter.
+      operationId: generateReports
+      parameters:
+        - name: season
+          in: query
+          required: true
+          description: The season for which the reports are to be generated (e.g., "Summer2024").
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of reports for the given season.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cropType:
+                      type: string
+                      description: Type of crop for the season.
+                    totalAreaPlanted:
+                      type: number
+                      format: float
+                      description: Total area planted in hectares.
+                    totalAreaHarvested:
+                      type: number
+                      format: float
+                      description: Total area harvested in hectares.
+                    totalQuantityHarvested:
+                      type: number
+                      format: float
+                      description: Total quantity harvested (e.g., in tons).
+                    season:
+                      type: string
+                      description: The season for which the report is generated.
+                    reportDate:
+                      type: string
+                      format: date
+                      description: The date the report was generated.
